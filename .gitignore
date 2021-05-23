@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+#webstorm
+.idea
+.iml
+
+# file: ~/.gitignore_global
+.DS_Store
