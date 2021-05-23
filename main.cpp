@@ -6,6 +6,7 @@
 #include <chrono>
 #include <set>
 #include <map>
+using namespace std;
 
 typedef int Vertice;
 typedef int Peso;
@@ -58,7 +59,7 @@ int main(int argc, char **argv) {
     // Leemos el input.
     Grafo G = leerGrafo();
     // Ejecutamos el algoritmo y obtenemos su tiempo de ejecución.
-    int costo = 0;
+    int costo;
     vector<int> H;
 
     auto start = chrono::steady_clock::now();
