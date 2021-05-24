@@ -7,10 +7,11 @@
 //#include <set>
 //#include <map>
 
+#include "aux.h"
 
-
+// types, despues sacar, va en main
 using namespace std;
-
+typedef vector<vector<Vecino>> Grafo;
 typedef int Vertice;
 typedef int Peso;
 struct Vecino {
@@ -19,10 +20,12 @@ struct Vecino {
     Vecino(Vertice d, Peso p) : dst(d), peso(p) {}
 };
 
-int INT_MAX = 2147483647;
-Vecino V_INDEF = Vecino(INT_MAX, INT_MAX);
 
-typedef vector<vector<Vecino>> Grafo;
+// variables globales
+const int INT_MAX = 2147483647;
+Vecino V_INDEF = Vecino(INT_MAX, INT_MAX);
+vector<bool> visitados(grafo_prueba.size(),false);
+vector<int> orden;
 
 
 
@@ -34,22 +37,18 @@ Grafo grafo_prueba =
 
 
 // DFS
-
-vector<bool> visitados(grafo_prueba.size(),false);
-vector<int> orden;
-
 void dfs_rec(int v){
 
     for (Vecino n : grafo_prueba[v]){ // CAMBIAR GRAFO PRUEBA
         if (visitados[n.dst] == false){
             visitados[n.dst] = true;
             orden.push_back(n.dst);
-//          cout << n.dst << endl;
+            //cout << n.dst << endl;
             dfs_rec(n.dst);
         }
     }
 }
-vector<int> dfs(const Grafo& G,int v0){ // 0 1 3 2 ->    1 2 4 3
+vector<int> dfs(const Grafo& G,int v0){
     v0 = 0 ;
 
     visitados[v0] = true;
@@ -60,13 +59,8 @@ vector<int> dfs(const Grafo& G,int v0){ // 0 1 3 2 ->    1 2 4 3
 }
 
 
-// FIN DFS
 
-
-
-
-
-pair<int, Vecino> buscarmin(Grafo g){
+pair<int, Vecino> buscarmin(const Grafo& g){
     Vecino v_min = V_INDEF;
     int n_min = INT_MAX;
     for (int i = 0; i < visitados.size(); i++) {
@@ -83,7 +77,7 @@ pair<int, Vecino> buscarmin(Grafo g){
     return make_pair(n_min, v_min);
 }
 
-Grafo agm(Grafo g){
+Grafo prim(const Grafo& g){
     int v_0 = 0;
     Grafo res_agm (g.size()); // creamos grafo con la cantidad de nodos y los vecinos vacios
     int contador = g.size();
@@ -102,36 +96,9 @@ Grafo agm(Grafo g){
 }
 
 
-void print_vecino(vector<Vecino> v){
-    cout << "[";
-    for (int i = 0; i < v.size(); i++) {
-        if (i == v.size() - 1){
-            cout << '(' << v[i].dst + 1 << ',' << v[i].peso << ")";
-        } else {
-            cout << '(' << v[i].dst + 1 << ',' << v[i].peso << "), ";
-        }
-    }
-    cout << "]";
-}
-
-void print_camino(vector<int> v){
-    for (int i = 0; i < v.size(); i++) {
-        cout << v[i] + 1 << " ";
-    }
-    cout << endl;
-
-}
-
-void print_grafo(Grafo g){
-    for (int i = 0; i < g.size(); ++i) {
-        cout << i + 1 << " -> ";
-        print_vecino(g[i]);
-        cout << " " << endl;
-    }
-}
 
 
-int peso_camino(Grafo g, vector<int> camino){
+int peso_camino(const Grafo& g, const vector<int>& camino){
     int res = 0;
     for (int i = 0; i < camino.size(); ++i) {
         int s = i + 1;
@@ -152,8 +119,8 @@ void limpiar_visitados(){
     }
 }
 
-void AGM(Grafo g){
-    Grafo g_agm = agm(g);
+void AGM(const Grafo& g){
+    Grafo g_agm = prim(g);
     limpiar_visitados();
     vector<int> camino = dfs(g_agm,0);
     cout<< " AGUANTE ALL BOYS" << endl;
