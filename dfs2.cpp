@@ -28,7 +28,7 @@ Grafo G =
 
 
 vector<bool> visitados(G.size(),false);
-vector<int> orden; 
+vector<int> orden;
 
 
 void dfs_rec(int v){
@@ -48,7 +48,7 @@ vector<int> dfs(const Grafo& G,int v0){
     visitados[v0] = true;
     cout<< v0 << endl;
     dfs_rec(v0);
-    
+
     return orden;
 }
 
