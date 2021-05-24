@@ -30,7 +30,13 @@ int buscarMinimo(vector<Vecino>& vecinos, vector<bool>& visitados){
   }
 
   return min;
+}
 
+buscarAristaMinima(vector<Vecino> vecinos, int w){
+  int min = minmax_element(vecinos.begin(), vecinos.end(),
+            [] (Vecino& x, Vecino& y) {return x.peso < y.peso && x.dst != w ;});
+
+  return min;
 }
 pair<vector<int>,int> vecinoMasCercano(Grafo G){
 
@@ -42,16 +48,17 @@ pair<vector<int>,int> vecinoMasCercano(Grafo G){
   while (H.size() < n){
     int w = -1;
     w = buscarMinimo(G[v], visitados);
-    if (w == -1) return make_pair(H,costo); // no se encontro ningun vecino que no genere ciclos.
+    if (w == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
     visitados[w] = true;
     costo = costo + w.peso;
     H.push_back(w);
     v = w;
   }
-  if (existe arista de H[0] a H[n-1]){
-    return make_pair(H,costo + peso de esa arista);
+  pair<int,int> z,peso_z = buscarAristaMinima(G[H[n-1]],H[0]); // arista que cierra el ciclo.
+  if (z != -1){
+    return make_pair(H, costo + peso_z);
   }
-  else {
+  else { // No existe arista que cierre el ciclo.
     error
   }
 }
