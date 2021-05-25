@@ -1,11 +1,11 @@
 #ifndef TP2_ALGO3_AGM_H
 #define TP2_ALGO3_AGM_H
 
-
+#include "tipos.h"
 
 // variables globales
-const int INT_MAX;
-Vecino V_INDEF;
+extern const int INT_MAX;
+extern Vecino V_INDEF;
 vector<bool> visitados;
 vector<int> orden;
 

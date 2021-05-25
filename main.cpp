@@ -48,11 +48,15 @@ int main(int argc, char **argv) {
 
     auto start = chrono::steady_clock::now();
     if (algoritmo == "VMC") {
-        //H,costo = VMC(G);
+//        pair<vector<int>,int> p = VMC(G);
+//        H = p.first;
+//        costo = p.second;
     } else if (algoritmo == "I") {
         //H,costo = I(G);
     } else if (algoritmo == "AGM") {
-        //H,costo = AGM();
+        pair<vector<int>,int> p = AGM(G);
+        H = p.first;
+        costo = p.second;
     } else if (algoritmo == "VMC-TS1") {
           //H,costo = VMC(G);
     } else if (algoritmo == "I-TS1") {

@@ -1,8 +1,6 @@
 #include "aux.h"
 #include "tipos.h"
 
-
-
 //Grafo grafo_prueba =
 //        {{Vecino(2-1,10), Vecino(4-1,20), Vecino(3-1,15)},
 //         {Vecino(1-1,10), Vecino(4-1,25), Vecino(3-1,35)},
