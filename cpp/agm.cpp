@@ -7,11 +7,9 @@
 //         {Vecino(1-1,15), Vecino(2-1,35), Vecino(4-1,30)},
 //         {Vecino(1-1,20), Vecino(2-1,25), Vecino(3-1,30)}};
 
-
 // variables globales
 const int INT_MAX = 2147483647;
 Vecino V_INDEF = Vecino(INT_MAX, INT_MAX);
-
 
 void dfs_rec(int v,const Grafo &g, vector<bool>&visitados,vector<int>& orden){
     for (Vecino n : g[v]){
@@ -34,40 +32,38 @@ vector<int> dfs(const Grafo& G,int v0){
     return orden;
 }
 
+// pair<int, Vecino> buscarmin(const Grafo& g, vector<bool>& visitados){
+//     Vecino v_min = V_INDEF;
+//     int n_min = INT_MAX;
+//     for (int i = 0; i < visitados.size(); i++) { // O(n)
+//         if(visitados[i]){
+//             for ( Vecino v : g[i]){ // O(n)
+//                 bool visitado = visitados[v.dst];
+//                 if( v_min.peso > v.peso and !visitado){
+//                     v_min = v;
+//                     n_min = i;
+//                 }
+//             }
+//         }
+//     }
+//     return make_pair(n_min, v_min);
+// }
 
-pair<int, Vecino> buscarmin(const Grafo& g, vector<bool>& visitados){
-    Vecino v_min = V_INDEF;
-    int n_min = INT_MAX;
-    for (int i = 0; i < visitados.size(); i++) { // O(n)
-        if(visitados[i]){
-            for ( Vecino v : g[i]){ // O(n)
-                bool visitado = visitados[v.dst];
-                if( v_min.peso > v.peso and !visitado){
-                    v_min = v;
-                    n_min = i;
-                }
-            }
-        }
-    }
-    return make_pair(n_min, v_min);
-}
-
-
-Grafo prim2(const Grafo& g){
-    int v_0 = 0;
-    Grafo res_agm (g.size());   // O(n) creamos grafo con la cantidad de nodos y los vecinos vacios
-    vector<bool> visitados (g.size(), false); // O(n)
-    visitados[v_0] = true;
-    for (int i = 0; i < g.size(); ++i) {        // O(n)
-        pair<int, Vecino> t = buscarmin(g,visitados);
-        Vecino vecino_min = t.second;
-        int n = t.first;
-        visitados[vecino_min.dst] = true;
-        res_agm[n].push_back(vecino_min);
-        res_agm[vecino_min.dst].push_back(Vecino(n, vecino_min.peso));
-    }
-    return res_agm;
-}
+// Grafo prim2(const Grafo& g){
+//     int v_0 = 0;
+//     Grafo res_agm (g.size());   // O(n) creamos grafo con la cantidad de nodos y los vecinos vacios
+//     vector<bool> visitados (g.size(), false); // O(n)
+//     visitados[v_0] = true;
+//     for (int i = 0; i < g.size(); ++i) {        // O(n)
+//         pair<int, Vecino> t = buscarmin(g,visitados);
+//         Vecino vecino_min = t.second;
+//         int n = t.first;
+//         visitados[vecino_min.dst] = true;
+//         res_agm[n].push_back(vecino_min);
+//         res_agm[vecino_min.dst].push_back(Vecino(n, vecino_min.peso));
+//     }
+//     return res_agm;
+// }
 
 Grafo prim(const Grafo& g, int v){
     vector<bool> visitados (g.size(), false); // O(n)
@@ -118,14 +114,6 @@ Grafo prim(const Grafo& g, int v){
     return  res_agm;
 }
 
-
-
-
-
-
-
-
-
 int peso_camino(const Grafo& g, const vector<int>& camino){
     int res = 0;
     for (int i = 0; i < camino.size(); ++i) {
@@ -141,13 +129,11 @@ int peso_camino(const Grafo& g, const vector<int>& camino){
     return res;
 }
 
-
 pair<vector<int>,int> AGM(const Grafo& g){
     Grafo g_agm = prim(g);                  //
-    vector<int> camino = dfs(g_agm,0);  // complejidad DFS
+    vector<int> camino = dfs(g_agm,0);      // complejidad DFS
     int peso = peso_camino(g,camino);       //
 
     return make_pair(camino, peso);
-
 }
 

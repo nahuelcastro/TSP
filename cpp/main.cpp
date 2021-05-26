@@ -1,6 +1,6 @@
 #include "tipos.h"
 #include "agm.h"
-//#include "vmc.h"
+#include "vmc.h"
 
 Grafo leerGrafo() {
   int n, m;
@@ -48,9 +48,9 @@ int main(int argc, char **argv) {
 
     auto start = chrono::steady_clock::now();
     if (algoritmo == "VMC") {
-//        pair<vector<int>,int> p = VMC(G);
-//        H = p.first;
-//        costo = p.second;
+       pair<vector<int>,int> p = VMC(G);
+       H = p.first;
+       costo = p.second;
     } else if (algoritmo == "I") {
         //H,costo = I(G);
     } else if (algoritmo == "AGM") {
@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
 
     // Imprimimos el resultado por stdout.
     cout << H.size() << " " << costo << endl;
-    for (int v : H) cout << v << " ";
+    for (int v : H) cout << (v + 1) << " ";
     cout <<  "\n";
 
     return 0;
