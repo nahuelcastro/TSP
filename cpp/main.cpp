@@ -9,6 +9,8 @@ Grafo leerGrafo() {
   for (int i = 0; i < m; i++) {
     int v, w, peso;
     cin >> v >> w >> peso;
+    v = v-1;
+    w = w-1;
     G[v].push_back(Vecino(w, peso));
     G[w].push_back(Vecino(v, peso));
   }
@@ -83,3 +85,4 @@ int main(int argc, char **argv) {
 
     return 0;
 }
+

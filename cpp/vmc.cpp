@@ -21,7 +21,7 @@ Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
     return min;
 }
 
-Vecino buscarAristaMinima(vector<Vecino>& vecinos, int w){
+Vecino buscarAristaMinima(const vector<Vecino>& vecinos, int w){
     Vecino min(-1,0);
     int ind;
     //Inicializacion peso minimo. Se busca la primer arista a w.
@@ -41,7 +41,7 @@ Vecino buscarAristaMinima(vector<Vecino>& vecinos, int w){
     return min;
 }
 
-pair<vector<int>,int> vecinoMasCercano(const Grafo& G){
+pair<vector<int>,int> VMC(const Grafo& G){
     vector<int> H ;  //almacena los vertices del ciclo en orden
     int costo = 0;
     int n = G.size();

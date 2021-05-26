@@ -1,7 +1,10 @@
 El código que resuelve el problema del enunciado está en el archivo main.cpp.
-Para compilarlo se debe ejecutar el comando 
-	make
+Para compilarlo se debe ejecutar los siguientes comandos 
 en la consola.
+	mkdir build
+	cd build
+	cmake ../
+	cmake --build .
 
 Al ejecutarlo se le debe pasar un parámetro que indique cuál algoritmo se desea utilizar entre las siguientes opciones:
 	- FB: Fuerza bruta
