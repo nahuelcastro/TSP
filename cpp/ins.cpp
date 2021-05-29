@@ -5,7 +5,7 @@ Vecino elegir(Grafo G, vector<bool>& visitados, int v){
     Vecino min(-1, 0);
     int ind;
     //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
-    for (int i = 0; i < v+2; i++)
+    for (int i = 0; i < v; i++)
     {
         vector<Vecino> vecinos = G[i];
         for (int j = 0; j < vecinos.size(); j++)
@@ -13,14 +13,14 @@ Vecino elegir(Grafo G, vector<bool>& visitados, int v){
             if(!visitados[vecinos[j].dst]){
                 min = vecinos[j];
                 ind = i;
-                i = v+2;
+                i = v;
                 break;
             }
         }
     }
 
     // Elijo el vertice más cercano (menos peso) entre los insertados para insertarlo
-    for (int i = 0; i < v+2; i++)
+    for (int i = 0; i < v; i++)
     {
         vector<Vecino> vecinos = G[i];
         for (int j = 0; j < vecinos.size(); j++)
@@ -33,7 +33,7 @@ Vecino elegir(Grafo G, vector<bool>& visitados, int v){
     return min;
 }
 
-void insertar(Grafo G, Vecino w, int v){
+void insertar(Grafo G, Vertice w, vector<bool>& visitados, int costo){
 
 }
 
@@ -49,12 +49,10 @@ pair<vector<int>,int> I(const Grafo& G){
         visitados[i] = true;
     }
     for (int i = 0 ; i < n-1; i++){
-        Vecino w = elegir(G, visitados, i);
+        Vecino w = elegir(G, visitados, i+2);
         if (w.dst == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
-        insertar(G, w, i);
+        insertar(G, w.dst, visitados, costo);
 
-        visitados[w.dst] = true;
-        costo = costo + w.peso;
         H.push_back(w.dst);
     }
     return make_pair(H, costo);
