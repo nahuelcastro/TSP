@@ -2,7 +2,35 @@
 #include "tipos.h"
 
 Vecino elegir(Grafo G, vector<bool>& visitados, int v){
-    
+    Vecino min(-1, 0);
+    int ind;
+    //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
+    for (int i = 0; i < v+2; i++)
+    {
+        vector<Vecino> vecinos = G[i];
+        for (int j = 0; j < vecinos.size(); j++)
+        {
+            if(!visitados[vecinos[j].dst]){
+                min = vecinos[j];
+                ind = i;
+                i = v+2;
+                break;
+            }
+        }
+    }
+
+    // Elijo el vertice más cercano (menos peso) entre los insertados para insertarlo
+    for (int i = 0; i < v+2; i++)
+    {
+        vector<Vecino> vecinos = G[i];
+        for (int j = 0; j < vecinos.size(); j++)
+        {
+            if(!visitados[vecinos[j].dst] && vecinos[j].peso < min.peso){
+                min = vecinos[j];
+            }
+        }
+    }
+    return min;
 }
 
 void insertar(Grafo G, Vecino w, int v){
