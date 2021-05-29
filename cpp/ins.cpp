@@ -45,7 +45,7 @@ void insertar(Grafo G, Vertice w, vector<bool>& visitados, int costo){
             }
             if(nuevoCosto)
             if(visitados[vecinos[i].dst] && visitados[vecinos[j].dst]){
-                for (int q = 0; q < G[i].size(); q++) // Tiene que haber una mejor forma de hacerlo que esto, medio cabeza, pero buen, queda O(n^3)
+                for (int q = 0; q < G[i].size(); q++) // Tiene que haber una mejor forma de hacerlo que esto, medio cabeza, pero buen, queda O(n^3), si estuviese ordenado quedaría O(n^2*log(n))
                 {
                     if(G[i][q].dst == vecinos[j].dst){
                         pesoCaminoExistente = G[i][q].peso;
@@ -65,12 +65,13 @@ pair<vector<int>,int> I(const Grafo& G){
     int costo = 0;
     int n = G.size();
     vector<bool> visitados(n);
-    // agrego los primeros tres vertices del ciclo
+    // Agrego los primeros tres vertices del ciclo
     for (int i = 0; i < 3; i++)
     {
         H.push_back(i);
         visitados[i] = true;
     }
+    // Elijo e inserto los vertices
     for (int i = 0 ; i < n-1; i++){
         Vecino w = elegir(G, visitados, i+2);
         if (w.dst == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
