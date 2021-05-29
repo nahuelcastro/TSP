@@ -1,4 +1,3 @@
-#include "aux.h"
 #include "tipos.h"
 
 Vecino elegir(Grafo G, vector<bool>& visitados, int v){
