@@ -55,7 +55,9 @@ int main(int argc, char **argv) {
        H = p.first;
        costo = p.second;
     } else if (algoritmo == "I") {
-        //H,costo = I(G);
+        pair<vector<int>,int> p = I(G);
+        H = p.first;
+        costo = p.second;
     } else if (algoritmo == "AGM") {
         pair<vector<int>,int> p = AGM(G);
         H = p.first;
