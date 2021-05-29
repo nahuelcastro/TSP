@@ -1,6 +1,7 @@
 #include "tipos.h"
 #include "agm.h"
 #include "vmc.h"
+#include "ins.h"
 
 Grafo leerGrafo() {
   int n, m;
