@@ -1,5 +1,4 @@
-#include "aux.h"
-#include "tipos.h"
+#include "vmc.h"
 
 Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
     Vecino min(-1,0);
@@ -41,7 +40,7 @@ Vecino buscarAristaMinima(const vector<Vecino>& vecinos, int w){
     return min;
 }
 
-pair<vector<int>,int> VMC(const Grafo& G){
+pair<vector<int>,int> VMC(const Grafo& G){ 
     vector<int> H ;  //almacena los vertices del ciclo en orden
     int costo = 0;
     int n = G.size();
@@ -50,7 +49,7 @@ pair<vector<int>,int> VMC(const Grafo& G){
     int v = 0;
     H.push_back(v);
     visitados[v] = true;
-    for (int i = 0 ; i < n-1; i++){
+    for (int i = 0 ; i < n-1; i++){  
         
         Vecino w = buscarMinimo(G[v], visitados);
         if (w.dst == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
