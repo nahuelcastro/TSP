@@ -18,13 +18,14 @@ struct Vecino {
     Vertice dst;
     Peso peso;
     Vecino(Vertice d, Peso p) : dst(d), peso(p) {}
-    bool operator==(const Vecino& w) const{
-        return (dst == w.dst && peso == w.peso);
-    }
-    bool operator<(const Vecino& w) const{
-        return (dst <= w.dst && peso <= w.peso);
-    }        
+    // bool operator==(const Vecino& w) const{
+    //     return (dst == w.dst && peso == w.peso);
+    // }
+    // bool operator<(const Vecino& w) const{
+    //     return (dst <= w.dst && peso <= w.peso);
+    // }        
 };
+typedef pair<pair<int,int>,pair<int,int>> Swap;
 
 typedef vector<vector<Vecino>> Grafo;
 
