@@ -32,7 +32,7 @@ Vecino elegir(Grafo G, vector<bool>& visitados, int v){
     return min;
 }
 
-void insertar(Grafo G, Vertice w, vector<bool>& visitados, int costo){
+int insertar(Grafo G, Vertice w, vector<bool>& visitados, int& costo){
     vector<Vecino> vecinos = G[w];
     int pesoCaminoExistente, nuevoCosto;
     for (int i = 0; i < vecinos.size(); i++)
@@ -55,8 +55,10 @@ void insertar(Grafo G, Vertice w, vector<bool>& visitados, int costo){
             }
         }
     }
-    costo += nuevoCosto;
     visitados[w] = true;
+    costo += nuevoCosto;
+    return costo;
+
 }
 
 pair<vector<int>,int> I(const Grafo& G){
@@ -64,18 +66,27 @@ pair<vector<int>,int> I(const Grafo& G){
     int costo = 0;
     int n = G.size();
     vector<bool> visitados(n);
-    // Agrego los primeros tres vertices del ciclo
-    for (int i = 0; i < 3; i++)
+    // Agrego el primer vertice del ciclo
+    H.push_back(0);
+    visitados[0] = true;
+    // Agrego los dos siguientes vertices del ciclo
+    for (int i = 1; i < 3; i++)
     {
         H.push_back(i);
+        vector <Vecino> vecinos = G[i];
+        for (int j = 0; j < vecinos.size(); j++)
+        {
+            if(vecinos[j].dst == j){
+                costo += vecinos[j].peso;
+            }
+        }
         visitados[i] = true;
     }
     // Elijo e inserto los vertices
     for (int i = 0 ; i < n-1; i++){
         Vecino w = elegir(G, visitados, i+2);
         if (w.dst == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
-        insertar(G, w.dst, visitados, costo);
-
+        costo = insertar(G, w.dst, visitados, costo);
         H.push_back(w.dst);
     }
     return make_pair(H, costo);
