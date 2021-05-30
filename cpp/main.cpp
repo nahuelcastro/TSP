@@ -3,6 +3,7 @@
 #include "vmc.h"
 #include "ts1.h"
 #include "ts2.h"
+#include "ins.h"
 
 Grafo leerGrafo() {
   int n, m;
@@ -56,7 +57,9 @@ int main(int argc, char **argv) {
             H = p.first;
             costo = p.second;
     } else if (algoritmo == "I") {
-        //H,costo = I(G);
+        pair<vector<int>,int> p = I(G);
+        H = p.first;
+        costo = p.second;
     } else if (algoritmo == "AGM") {
             pair<vector<int>,int> p = AGM(G);
             H = p.first;
