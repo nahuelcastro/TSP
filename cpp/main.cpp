@@ -1,6 +1,8 @@
 #include "tipos.h"
 #include "agm.h"
 #include "vmc.h"
+#include "ts1.h"
+#include "ts2.h"
 
 Grafo leerGrafo() {
   int n, m;
@@ -49,18 +51,28 @@ int main(int argc, char **argv) {
     vector<int> H;
 
     auto start = chrono::steady_clock::now();
-    if (algoritmo == "VMC") {
-       pair<vector<int>,int> p = VMC(G);
-       H = p.first;
-       costo = p.second;
+      if (algoritmo == "VMC") {
+            pair<vector<int>,int> p = VMC(G);
+            H = p.first;
+            costo = p.second;
     } else if (algoritmo == "I") {
         //H,costo = I(G);
     } else if (algoritmo == "AGM") {
-        pair<vector<int>,int> p = AGM(G);
-        H = p.first;
-        costo = p.second;
+            pair<vector<int>,int> p = AGM(G);
+            H = p.first;
+            costo = p.second;
     } else if (algoritmo == "VMC-TS1") {
-          //H,costo = VMC(G);
+            // pair<vector<int>,int> p = VMC(G);
+            // vector<int> Hvmc = p.first;
+            // int costovmc = p.second;
+            // int T = 50;  
+            // int max_iter= 100;
+            // int rango_iter = 20;
+            // int percent= 10;
+            // int top = 10;
+            // pair<vector<int>,int> res = tabuSearch(G,Hvmc, costovmc, T,  max_iter, rango_iter, percent, top);
+            // H = res.first;
+            // costo = res.second;
     } else if (algoritmo == "I-TS1") {
           //H,costo = I(G);
     } else if (algoritmo == "AGM-TS1") {
