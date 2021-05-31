@@ -1,0 +1,70 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/agm.cpp
+aux.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/aux.h
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/agm.h
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/aux.cpp
+aux.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/aux.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/aux.h
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/ins.cpp
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/ins.h
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/main.cpp
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+agm.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/agm.h
+vmc.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/vmc.h
+ins.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/ins.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+iostream
+-
+vector
+-
+algorithm
+-
+cstdio
+-
+cstdlib
+-
+chrono
+-
+set
+-
+map
+-
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/vmc.cpp
+vmc.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/vmc.h
+
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/vmc.h
+tipos.h
+/media/linuxStorage/Algo 3/tp2-algo3/cpp/tipos.h
+

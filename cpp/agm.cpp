@@ -49,8 +49,7 @@ vector<int> dfs(const Grafo& G,int v0){
 //     return make_pair(n_min, v_min);
 // }
 
-// Grafo prim2(const Grafo& g){
-//     int v_0 = 0;
+// Grafo prim2(const Grafo& g, int v_0 = 0 ){
 //     Grafo res_agm (g.size());   // O(n) creamos grafo con la cantidad de nodos y los vecinos vacios
 //     vector<bool> visitados (g.size(), false); // O(n)
 //     visitados[v_0] = true;
@@ -129,11 +128,20 @@ int peso_camino(const Grafo& g, const vector<int>& camino){
     return res;
 }
 
+//nuevo
 pair<vector<int>,int> AGM(const Grafo& g){
     Grafo g_agm = prim(g,0);                  //
     vector<int> camino = dfs(g_agm,0);      // complejidad DFS
     int peso = peso_camino(g,camino);       //
-
     return make_pair(camino, peso);
 }
+
+////viejo
+//pair<vector<int>,int> AGM(const Grafo& g){
+//    Grafo g_agm = prim2(g,0);                  //
+//    vector<int> camino = dfs(g_agm,0);      // complejidad DFS
+//    int peso = peso_camino(g,camino);       //
+//
+//    return make_pair(camino, peso);
+//}
 

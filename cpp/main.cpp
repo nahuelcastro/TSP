@@ -1,8 +1,8 @@
 #include "tipos.h"
 #include "agm.h"
 #include "vmc.h"
-#include "ts1.h"
-#include "ts2.h"
+// #include "ts1.h"
+// #include "ts2.h"
 #include "ins.h"
 
 Grafo leerGrafo() {
