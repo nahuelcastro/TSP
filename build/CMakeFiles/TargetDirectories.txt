@@ -1,3 +1,0 @@
-/media/linuxStorage/Algo 3/tp2-algo3/build/CMakeFiles/rebuild_cache.dir
-/media/linuxStorage/Algo 3/tp2-algo3/build/CMakeFiles/edit_cache.dir
-/media/linuxStorage/Algo 3/tp2-algo3/build/CMakeFiles/tp2.dir
