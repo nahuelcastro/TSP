@@ -93,7 +93,7 @@ Grafo prim(const Grafo& g, int v){
         }
         visitados[n] = true;
         for(Vecino vc : g[n]){ // O(n)
-            if(distancia[vc.dst] > vc.peso){
+            if(distancia[vc.dst] > vc.peso and !visitados[vc.dst]){
                 distancia[vc.dst] = vc.peso;
                 padre[vc.dst] = n;
 
@@ -115,10 +115,10 @@ Grafo prim(const Grafo& g, int v){
 
 int peso_camino(const Grafo& g, const vector<int>& camino){
     int res = 0;
-    for (int i = 0; i < camino.size(); ++i) {
+    for (int i = 0; i < camino.size(); ++i) { //O(n)
         int s = i + 1;
         if (s == camino.size()) s = 0;
-        for (Vecino v : g[camino[i]]) {
+        for (Vecino v : g[camino[i]]) {      //O(n)
             if (v.dst == camino[s]) {
                 res += v.peso;
                 break;
@@ -128,13 +128,13 @@ int peso_camino(const Grafo& g, const vector<int>& camino){
     return res;
 }
 
-//nuevo
 pair<vector<int>,int> AGM(const Grafo& g){
-    Grafo g_agm = prim(g,0);                  //
-    vector<int> camino = dfs(g_agm,0);      // complejidad DFS
-    int peso = peso_camino(g,camino);       //
+    Grafo g_agm = prim(g,0);                  // O(n^2)
+    vector<int> camino = dfs(g_agm,0);       // complejidad DFS
+    int peso = peso_camino(g,camino);           // O(n^2)
     return make_pair(camino, peso);
 }
+
 
 ////viejo
 //pair<vector<int>,int> AGM(const Grafo& g){
