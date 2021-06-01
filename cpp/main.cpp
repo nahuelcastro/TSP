@@ -1,23 +1,23 @@
 #include "tipos.h"
 #include "agm.h"
 #include "vmc.h"
-// #include "ts1.h"
-// #include "ts2.h"
+#include "ts1.h"
+#include "ts2.h"
 #include "ins.h"
 
 Grafo leerGrafo() {
-  int n, m;
-  cin >> n >> m;
-  Grafo G(n, vector<Vecino>());
-  for (int i = 0; i < m; i++) {
-    int v, w, peso;
-    cin >> v >> w >> peso;
-    v = v-1;
-    w = w-1;
-    G[v].push_back(Vecino(w, peso));
-    G[w].push_back(Vecino(v, peso));
-  }
-  return G;
+      int n, m;
+      cin >> n >> m;
+      Grafo G(n, vector<Vecino>());
+      for (int i = 0; i < m; i++) {
+            int v, w, peso;
+            cin >> v >> w >> peso;
+            v = v-1;
+            w = w-1;
+            G[v].push_back(Vecino(v,w, peso));
+            G[w].push_back(Vecino(w,v, peso));
+      }
+      return G;
 }
 
 int main(int argc, char **argv) {
@@ -65,27 +65,57 @@ int main(int argc, char **argv) {
             H = p.first;
             costo = p.second;
     } else if (algoritmo == "VMC-TS1") {
-            // pair<vector<int>,int> p = VMC(G);
-            // vector<int> Hvmc = p.first;
-            // int costovmc = p.second;
-            // int T = 50;  
-            // int max_iter= 100;
-            // int rango_iter = 20;
-            // int percent= 10;
-            // int top = 10;
-            // pair<vector<int>,int> res = tabuSearch(G,Hvmc, costovmc, T,  max_iter, rango_iter, percent, top);
-            // H = res.first;
-            // costo = res.second;
+            pair<vector<int>,int> p = VMC(G);
+            vector<int> Hvmc = p.first;
+            int costovmc = p.second;
+            int T = 50;  
+            int max_iter= 100;
+            int rango_iter = 20;
+            int percent= 10;
+            int top = 10;
+            pair<vector<int>,int> res = tabuSearch(G,Hvmc, costovmc, T,  max_iter, rango_iter, percent, top);
+            H = res.first;
+            costo = res.second;
     } else if (algoritmo == "I-TS1") {
           //H,costo = I(G);
     } else if (algoritmo == "AGM-TS1") {
-          //H,costo = AGM();
+            pair<vector<int>,int> p = AGM(G);
+            vector<int> Hvmc = p.first;
+            int costovmc = p.second;
+            int T = 50;  
+            int max_iter= 100;
+            int rango_iter = 20;
+            int percent= 10;
+            int top = 10;
+            pair<vector<int>,int> res = tabuSearch(G,Hvmc, costovmc, T,  max_iter, rango_iter, percent, top);
+            H = res.first;
+            costo = res.second;
     } else if (algoritmo == "VMC-TS2") {
-          //H,costo = VMC(G);
+            pair<vector<int>,int> p = VMC(G);
+            vector<int> Hvmc = p.first;
+            int costovmc = p.second;
+            int T = 50;  
+            int max_iter= 100;
+            int rango_iter = 20;
+            int percent= 10;
+            int top = 10;
+            pair<vector<int>,int> res = tabuSearch2(G,Hvmc, costovmc, T,  max_iter, rango_iter, percent, top);
+            H = res.first;
+            costo = res.second;
     } else if (algoritmo == "I-TS2") {
           //H,costo = I(G);
     } else if (algoritmo == "AGM-TS2") {
-          //H,costo = AGM();
+            pair<vector<int>,int> p = AGM(G);
+            vector<int> Hvmc = p.first;
+            int costovmc = p.second;
+            int T = 50;  
+            int max_iter= 100;
+            int rango_iter = 20;
+            int percent= 10;
+            int top = 10;
+            pair<vector<int>,int> res = tabuSearch2(G,Hvmc, costovmc, T,  max_iter, rango_iter, percent, top);
+            H = res.first;
+            costo = res.second;
     }
     auto end = chrono::steady_clock::now();
     double total_time = chrono::duration<double, milli>(end - start).count();

@@ -1,7 +1,7 @@
 #include "vmc.h"
 
 Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
-    Vecino min(-1,0);
+    Vecino min(-1,-1,0);
     int ind;
     //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
     for (int i = 0; i < vecinos.size(); i++) {
@@ -21,8 +21,8 @@ Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
 }
 
 Vecino buscarAristaMinima(const vector<Vecino>& vecinos, int w){
-    Vecino min(-1,0);
-    int ind;
+    Vecino min(-1,-1,0);
+    int ind = 0;
     //Inicializacion peso minimo. Se busca la primer arista a w.
     for (int i = 0; i < vecinos.size(); i++) {
         if(vecinos[i].dst == w){

@@ -9,7 +9,9 @@
 
 // variables globales
 const int INT_MAX = 2147483647;
-Vecino V_INDEF = Vecino(INT_MAX, INT_MAX);
+//Vecino V_INDEF = Vecino(INT_MAX, INT_MAX);
+Vecino V_INDEF = Vecino(-1,INT_MAX, INT_MAX);
+
 
 void dfs_rec(int v,const Grafo &g, vector<bool>&visitados,vector<int>& orden){
     for (Vecino n : g[v]){
@@ -105,8 +107,11 @@ Grafo prim(const Grafo& g, int v){
     // armado de grafo para devolver
     for (int i = 0; i < padre.size() ; ++i) { //O(n)
         if (i != padre[i]){
-            res_agm[i].push_back(Vecino(padre[i],distancia[i]));
-            res_agm[padre[i]].push_back(Vecino(i,distancia[i]));
+            // res_agm[i].push_back(Vecino(padre[i],distancia[i]));
+            // res_agm[padre[i]].push_back(Vecino(i,distancia[i]));
+
+            res_agm[i].push_back(Vecino(i,padre[i],distancia[i]));
+            res_agm[padre[i]].push_back(Vecino(padre[i],i,distancia[i]));
         }
 
     }
