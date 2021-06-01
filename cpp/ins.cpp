@@ -1,7 +1,8 @@
 #include "tipos.h"
 
 Vecino elegir(Grafo G, vector<bool>& visitados, int v){
-    Vecino min(-1, 0);
+    Vecino min(-1,-1, 0);
+    
     //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
     for (int i = 0; i < v; i++)
     {

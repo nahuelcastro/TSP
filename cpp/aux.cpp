@@ -32,3 +32,34 @@ void print_grafo( const Grafo& g){
     }
 }
 
+// Devuelve las aristas de minimo peso de los vecinos de un vertice que conectan a "w" y a "q".
+pair<Vecino,Vecino> AristasDesde(const vector<Vecino>& vecinos, int w,int q){ 
+    Vecino min_w(-1,-1,0);
+    Vecino min_q(-1,-1,0);
+    int ind = 0;
+    bool encontreMinW , encontreMinQ = false;
+    //Inicializacion peso minimo. Se busca la primer arista a w.
+    for (int i = 0; i < vecinos.size(); i++) {
+        if (encontreMinW && encontreMinQ) break;
+        if(vecinos[i].dst == w){
+            min_w = vecinos[i];
+            ind = i;
+            encontreMinW = true;
+        }
+        if(vecinos[i].dst == q){
+            min_q = vecinos[i];
+            ind = i;
+            encontreMinQ = true;
+        }
+    }
+    // Busqueda de una arista a w y a q que tenga el minimo peso.
+    for (int i = ind + 1 ; i < vecinos.size(); i++){
+        if (vecinos[i].dst == w && vecinos[i].peso < min_w.peso) {
+            min_w = vecinos[i];
+        }
+         if (vecinos[i].dst == q && vecinos[i].peso < min_q.peso) {
+            min_q = vecinos[i];
+        }
+    }
+    return make_pair(min_w,min_q);
+}
