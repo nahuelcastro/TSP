@@ -2,7 +2,6 @@
 
 Vecino elegir(Grafo G, vector<bool>& visitados, int v){
     Vecino min(-1, 0);
-    int ind;
     //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
     for (int i = 0; i < v; i++)
     {
@@ -11,7 +10,6 @@ Vecino elegir(Grafo G, vector<bool>& visitados, int v){
         {
             if(!visitados[vecinos[j].dst]){
                 min = vecinos[j];
-                ind = i;
                 i = v;
                 break;
             }
