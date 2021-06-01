@@ -2,7 +2,7 @@
 
 Vecino elegir(Grafo G, vector<bool>& visitados, int v){
     Vecino min(-1,-1, 0);
-    
+
     //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
     for (int i = 0; i < v; i++)
     {
@@ -31,17 +31,18 @@ Vecino elegir(Grafo G, vector<bool>& visitados, int v){
     return min;
 }
 
-int insertar(Grafo G, Vertice w, vector<bool>& visitados, int& costo){
+int insertar(Grafo G, Vertice w, vector<bool>& visitados, int costo){
     vector<Vecino> vecinos = G[w];
     int pesoCaminoExistente, nuevoCosto;
+    bool nuevoCostoInstanciado = false;
     for (int i = 0; i < vecinos.size(); i++)
     {
         for (int j = i+1; j < vecinos.size(); j++)
         {
-            if(j==1){ // Una cabezeada mística, estaba muy cansado cuando lo hice, perdón
+            if(!nuevoCostoInstanciado && visitados[vecinos[i].dst] && visitados[vecinos[j].dst]){ // Una cabezeada mística, estaba muy cansado cuando lo hice, perdón
                 nuevoCosto = vecinos[i].peso + vecinos[j].peso;
+                nuevoCostoInstanciado = true;
             }
-            if(nuevoCosto)
             if(visitados[vecinos[i].dst] && visitados[vecinos[j].dst]){
                 for (int q = 0; q < G[i].size(); q++) // Tiene que haber una mejor forma de hacerlo que esto, medio cabeza, pero buen, queda O(n^3), si estuviese ordenado quedaría O(n^2*log(n))
                 {
