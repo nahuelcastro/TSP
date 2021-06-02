@@ -40,6 +40,22 @@ Vecino buscarAristaMinima(const vector<Vecino>& vecinos, int w){
     return min;
 }
 
+int peso_camino(const Grafo& g, const vector<int>& camino){
+    int res = 0;
+    for (int i = 0; i < camino.size(); ++i) { //O(n)
+        int s = i + 1;
+        if (s == camino.size()) s = 0;
+        for (Vecino v : g[camino[i]]) {      //O(n)
+            if (v.dst == camino[s]) {
+                res += v.peso;
+                break;
+            }
+        }
+    }
+    return res;
+}
+
+
 pair<vector<int>,int> VMC(const Grafo& G){ 
     vector<int> H ;  //almacena los vertices del ciclo en orden
     int costo = 0;
@@ -62,9 +78,11 @@ pair<vector<int>,int> VMC(const Grafo& G){
     }
     Vecino cierre = buscarAristaMinima(G[H[n-1]],H[0]); // arista que cierra el ciclo.
     
-    if (cierre.dst != -1) return make_pair(H, costo + cierre.peso);
+    // if (cierre.dst != -1) return make_pair(H, costo + cierre.peso);
 
-    else { // No existe arista que cierre el ciclo.
-        return make_pair(H, costo);
-    }
+    // else { // No existe arista que cierre el ciclo.
+    //     return make_pair(H, costo + cierre.peso );
+    // }
+
+    return make_pair(H,peso_camino(G, H) );
 }
