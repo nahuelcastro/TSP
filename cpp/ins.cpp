@@ -11,7 +11,7 @@ int elegir(Grafo G, vector<bool> insertado){ // O(n²)
             for (int j = 0; j < vecinos.size(); j++)
             {
                 if(!insertado[vecinos[j].dst]){
-                    if(min.dst == -1 || vecinos[j].peso < min.peso){ //
+                    if(min.dst == -1 || vecinos[j].peso < min.peso){
                         min = vecinos[j];
                     }
                 }
@@ -23,21 +23,24 @@ int elegir(Grafo G, vector<bool> insertado){ // O(n²)
 
 int insertar(Grafo G, Vertice w, map<pair<int, int>, int>longitudes, map<int, int> &conexiones, vector<bool> &insertado){
     vector<Vecino> vecinos = G[w];
-    int nuevoCosto = 0, iViejo = 0, jViejo = 0;
+    int costoViejo, nuevoCosto, iViejo, jViejo;
     bool instanciado = false;
+
     for (int i = 0; i < vecinos.size(); i++) {
         Vertice iVertice = vecinos[i].dst;
         if(insertado[iVertice]){
-            for (int j = i+1; j < vecinos.size(); ++j) {
+            for (int j = 0; j < vecinos.size(); ++j) {
                 Vertice jVertice = vecinos[j].dst;
                 bool esConsecutivoDeI = insertado[jVertice] && conexiones[iVertice] == jVertice;
                 if(instanciado && esConsecutivoDeI) {
-                    nuevoCosto = min(longitudes.find({w, iVertice})->second + longitudes.find({w, jVertice})->second -
-                                     longitudes.find({iVertice, jVertice})->second, nuevoCosto);
-                    iViejo = iVertice;
-                    jViejo = jVertice;
+                    costoViejo = nuevoCosto;
+                    nuevoCosto = min(longitudes[{w,iViejo}] + longitudes[{w,jViejo}] - longitudes[{iViejo,jViejo}], nuevoCosto);
+                    if(costoViejo != nuevoCosto) {
+                        iViejo = iVertice;
+                        jViejo = jVertice;
+                    }
                 }else if(!instanciado && esConsecutivoDeI){
-                    nuevoCosto = longitudes.find({w,iVertice})->second + longitudes.find({w,jVertice})->second - longitudes.find({iVertice,jVertice})->second;
+                    nuevoCosto = longitudes[{w,i}] + longitudes[{w,j}] - longitudes[{i,j}];
                     instanciado = true;
                     iViejo = iVertice;
                     jViejo = jVertice;
@@ -62,7 +65,6 @@ pair<vector<int>,int> I(const Grafo& G){
     int costo = 0;
     int n = G.size();
     vector<bool> insertado(n);
-    // Hasta acá bien
     map<int, int> conexiones;
     map<pair<int,int>, int> longitudes;
 
@@ -72,21 +74,20 @@ pair<vector<int>,int> I(const Grafo& G){
     }
 
     // Instancio las longitudes entre vertices
-    for (int i = 0; i < n; ++i) { // O(n* n*(n-1)/2) -> O(n³) (menos pero ponele)
+    for (int i = 0; i < n; ++i) { // O(n*n*(n-1)/2) -> O(n³) (menos pero ponele)
         for (int j = 0; j < G[i].size(); ++j) {
-            longitudes.insert({{i,G[i][j].dst}, G[i][j].peso});
-            longitudes.insert({{G[i][j].dst,i}, G[i][j].peso});
+            longitudes.insert({{G[i][j].origen,G[i][j].dst}, G[i][j].peso});
         }
     }
 
     // Agrego los tres primeros vertices del ciclo
     for (int i = 0; i < 2; i++) { // O(log(n))
-        costo += longitudes.find({i,i+1})->second;
+        costo += longitudes[{i,i+1}];
         conexiones[i] = i+1;
         insertado[i]=true;
     }
     conexiones[2]=0;
-    costo += longitudes.find({0, 2})->second;
+    costo += longitudes[{0,2}];
     insertado[2]=true;
 
     // Elijo e inserto el resto de los vertices
