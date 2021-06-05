@@ -98,7 +98,7 @@ pair<vector<int>,int> tabuSearch2(const Grafo& G,vector<int> SolucionInicial,int
 
         ciclo = get<0>(mejor);
         costo_ciclo = get<1>(mejor);
-        pair<Vecino,Vecino> sw = get<2>(mejor);
+        pair<Vecino,Vecino> sw = get<2>(mejor); // aristas sacadas
         
         memoria.push_front(sw); // guardamos al principio de la lista "memoria" las aristas quitadas 
 

@@ -95,7 +95,6 @@ int peso_camino2(const Grafo& g, const vector<int>& camino){
 
 pair<vector<int>,int> AGM(const Grafo& g){
     Grafo g_agm = prim(g,0);                          // O(n^2)
-
     vector<int> camino = dfs(g_agm,0);                  // complejidad DFS
     int peso = peso_camino2(g,camino);                   // O(n^2)
     return make_pair(camino, peso);
