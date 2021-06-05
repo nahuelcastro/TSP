@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
     // Leemos el parametro que indica el algoritmo a ejecutar.
     map <string, string> algoritmos_implementados = {
             {"VMC",   "Vecino mas cercano"},
+            {"random",  "random"},
             {"I",   "Insercion"},
             {"AGM", "Arbol generador minimo"},
             {"VMC-TS1",   "Vecino mas cercano"},
@@ -50,13 +51,21 @@ int main(int argc, char **argv) {
     // Ejecutamos el algoritmo y obtenemos su tiempo de ejecución.
     int costo;
     vector<int> H;
-
     auto start = chrono::steady_clock::now();
       if (algoritmo == "VMC") {
             pair<vector<int>,int> p = VMC(G);
             H = p.first;
             costo = p.second;
-    } else if (algoritmo == "I") {
+    } else if (algoritmo == "random") {
+        vector<int> v = {0,1,2,4,5,6,7,8,9,10,11};
+        vector<int> ori = v; 
+        for (size_t i = 0; i < 6; i++){ 
+                v = ori; 
+                random_shuffle(v.begin(), v.end());
+                for (int e : v) cout << e << " ";
+                cout<<endl;
+        }
+    }else if (algoritmo == "I") {
         pair<vector<int>,int> p = I(G);
         H = p.first;
         costo = p.second;
