@@ -1,92 +1,107 @@
 #include "tipos.h"
 
-Vecino elegir(Grafo G, vector<bool>& visitados, int v){
-    Vecino min(-1,-1, 0);
-    
-    //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
-    for (int i = 0; i < v; i++)
-    {
-        vector<Vecino> vecinos = G[i];
-        for (int j = 0; j < vecinos.size(); j++)
-        {
-            if(!visitados[vecinos[j].dst]){
-                min = vecinos[j];
-                i = v;
-                break;
-            }
-        }
-    }
+int elegir(Grafo G, vector<bool> insertado){ // O(n²)
+    Vecino min(-1,-1,0);
 
-    // Elijo el vertice más cercano (menos peso) entre los insertados para insertarlo
-    for (int i = 0; i < v; i++)
+    // Elijo el vertice más cercano (menos peso) a uno ya insertado
+    for (int i = 0; i < insertado.size(); i++) // O(n²) -> Menos en realidad
     {
-        vector<Vecino> vecinos = G[i];
-        for (int j = 0; j < vecinos.size(); j++)
-        {
-            if(!visitados[vecinos[j].dst] && vecinos[j].peso < min.peso){
-                min = vecinos[j];
-            }
-        }
-    }
-    return min;
-}
-
-int insertar(Grafo G, Vertice w, vector<bool>& visitados, int& costo){
-    vector<Vecino> vecinos = G[w];
-    int pesoCaminoExistente, nuevoCosto;
-    for (int i = 0; i < vecinos.size(); i++)
-    {
-        for (int j = i+1; j < vecinos.size(); j++)
-        {
-            if(j==1){ // Una cabezeada mística, estaba muy cansado cuando lo hice, perdón
-                nuevoCosto = vecinos[i].peso + vecinos[j].peso;
-            }
-            if(nuevoCosto)
-            if(visitados[vecinos[i].dst] && visitados[vecinos[j].dst]){
-                for (int q = 0; q < G[i].size(); q++) // Tiene que haber una mejor forma de hacerlo que esto, medio cabeza, pero buen, queda O(n^3), si estuviese ordenado quedaría O(n^2*log(n))
-                {
-                    if(G[i][q].dst == vecinos[j].dst){
-                        pesoCaminoExistente = G[i][q].peso;
-                        break;
+        if(insertado[i]){
+            vector<Vecino> vecinos = G[i];
+            for (int j = 0; j < vecinos.size(); j++)
+            {
+                if(!insertado[vecinos[j].dst]){
+                    if(min.dst == -1 || vecinos[j].peso < min.peso){ //
+                        min = vecinos[j];
                     }
                 }
-                nuevoCosto = min(vecinos[i].peso + vecinos[j].peso - pesoCaminoExistente, nuevoCosto);
             }
         }
     }
-    visitados[w] = true;
-    costo += nuevoCosto;
-    return costo;
+    return min.dst;
+}
 
+int insertar(Grafo G, Vertice w, map<pair<int, int>, int>longitudes, map<int, int> &conexiones, vector<bool> &insertado){
+    vector<Vecino> vecinos = G[w];
+    int nuevoCosto = 0, iViejo = 0, jViejo = 0;
+    bool instanciado = false;
+    for (int i = 0; i < vecinos.size(); i++) {
+        Vertice iVertice = vecinos[i].dst;
+        if(insertado[iVertice]){
+            for (int j = i+1; j < vecinos.size(); ++j) {
+                Vertice jVertice = vecinos[j].dst;
+                bool esConsecutivoDeI = insertado[jVertice] && conexiones[iVertice] == jVertice;
+                if(instanciado && esConsecutivoDeI) {
+                    nuevoCosto = min(longitudes.find({w, iVertice})->second + longitudes.find({w, jVertice})->second -
+                                     longitudes.find({iVertice, jVertice})->second, nuevoCosto);
+                    iViejo = iVertice;
+                    jViejo = jVertice;
+                }else if(!instanciado && esConsecutivoDeI){
+                    nuevoCosto = longitudes.find({w,iVertice})->second + longitudes.find({w,jVertice})->second - longitudes.find({iVertice,jVertice})->second;
+                    instanciado = true;
+                    iViejo = iVertice;
+                    jViejo = jVertice;
+                }
+            }
+        }
+    }
+    // Cabeza? Quien?
+    if(conexiones[iViejo] == jViejo) {
+        conexiones[w] = jViejo;
+        conexiones[iViejo] = w;
+    }else{
+        conexiones[w] = iViejo;
+        conexiones[jViejo] = w;
+    }
+    insertado[w] = true;
+    return nuevoCosto;
 }
 
 pair<vector<int>,int> I(const Grafo& G){
     vector<int> H;
     int costo = 0;
     int n = G.size();
-    vector<bool> visitados(n);
-    // Agrego el primer vertice del ciclo
-    H.push_back(0);
-    visitados[0] = true;
-    // Agrego los dos siguientes vertices del ciclo
-    for (int i = 1; i < 3; i++)
-    {
-        H.push_back(i);
-        vector <Vecino> vecinos = G[i];
-        for (int j = 0; j < vecinos.size(); j++)
-        {
-            if(vecinos[j].dst == j){
-                costo += vecinos[j].peso;
-            }
+    vector<bool> insertado(n);
+    // Hasta acá bien
+    map<int, int> conexiones;
+    map<pair<int,int>, int> longitudes;
+
+    // Instancio las conexiones en el grafo
+    for (int i = 0; i < n; ++i) { // O(n)
+        conexiones[i] = -1;
+    }
+
+    // Instancio las longitudes entre vertices
+    for (int i = 0; i < n; ++i) { // O(n* n*(n-1)/2) -> O(n³) (menos pero ponele)
+        for (int j = 0; j < G[i].size(); ++j) {
+            longitudes.insert({{i,G[i][j].dst}, G[i][j].peso});
+            longitudes.insert({{G[i][j].dst,i}, G[i][j].peso});
         }
-        visitados[i] = true;
     }
-    // Elijo e inserto los vertices
-    for (int i = 0 ; i < n-1; i++){
-        Vecino w = elegir(G, visitados, i+2);
-        if (w.dst == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
-        costo = insertar(G, w.dst, visitados, costo);
-        H.push_back(w.dst);
+
+    // Agrego los tres primeros vertices del ciclo
+    for (int i = 0; i < 2; i++) { // O(log(n))
+        costo += longitudes.find({i,i+1})->second;
+        conexiones[i] = i+1;
+        insertado[i]=true;
     }
-    return make_pair(H, costo);
+    conexiones[2]=0;
+    costo += longitudes.find({0, 2})->second;
+    insertado[2]=true;
+
+    // Elijo e inserto el resto de los vertices
+    for (int i = 3 ; i < n; i++){ // O(n²*log(n))
+        Vertice w = elegir(G, insertado);
+        if (w == -1) return make_pair(H,costo); // No se encontro ningun vecino que no genere ciclos.
+        costo += insertar(G, w, longitudes, conexiones, insertado);
+    }
+
+    // Agrego el camino de vertices en orden
+    H.push_back(0);
+    int proximo = 0;
+    for (int i = 0; i < n-1; ++i) { // O(n)
+        proximo = conexiones[proximo];
+        H.push_back(proximo);
+    }
+    return make_pair(H, costo); // O(n)
 }

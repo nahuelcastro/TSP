@@ -6,12 +6,14 @@ en la consola.
 	cmake ../
 	cmake --build .
 
+o ejecutar el comando sh build.sh en la terminal
+
 Al ejecutarlo se le debe pasar un parámetro que indique cuál algoritmo se desea utilizar entre las siguientes opciones:
-	- FB: Fuerza bruta
-	- BT: Backtracking
-	- BT-F: Backtracking solamente con poda por factibilidad.
-	- BT-O: Backtracking solamente con poda por optimalidad.
-	- PD: Programación dinámica.
+
+
+- VMC : vecino mas cercano
+- AGM : arbol generador minimo
+- I : incersion
 
 Además se debe pasar la instancia por entrada estándar. Por ejemplo, para ejecutar backtracking solamente con podas por factibilidad en una instancia INST1.TXT se debe correr el siguiente comando:
 	cat INST1.txt | ./main BT-F
