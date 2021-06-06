@@ -5,7 +5,7 @@
 vector<pair<int,int>> createPairVector(int n){
     vector<pair<int,int>> v;
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < i; j++) {   
+        for (int j = i +1; j < n; j++) {   
             v.push_back(make_pair(i,j));
         }
     }
@@ -19,10 +19,12 @@ void obtenerSubVecindad(vector<pair<int,int>>& v){
 
 vector<int> SwapCiclo(const vector<int>& ciclo,int i ,int j){
 
-    // ciclo_Swap[0:i] = ciclo[0:i]
-    auto first = ciclo.begin();
-    auto last = ciclo.begin() + i + 1 ;  
-    vector<int> ciclo_Swap(first, last);
+    
+    vector<int> ciclo_Swap;
+
+    for (int k = 0; k <= i; k++){                    
+        ciclo_Swap.push_back(ciclo[k]);
+    }
 
     //ciclo_Swap[i+1:j] = reverso(ciclo_Swap[i+1:j])
     for (int k = j; k >= i+1; k--){
@@ -32,7 +34,7 @@ vector<int> SwapCiclo(const vector<int>& ciclo,int i ,int j){
     // ciclo_Swap[j+1:] = ciclo[j+1:]
     for (int k = j+1;k < ciclo.size(); k++){
         ciclo_Swap.push_back(ciclo[k]);
-    }
+    }   
     return ciclo_Swap;
 }
 
@@ -64,7 +66,7 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
     
     vector<int> mejor_vecino = SwapCiclo(ciclo,i,j); // genero el nuevo ciclo
 
-    for (int k = 0; k < hasta; k++ ){
+    for (int k = 1; k < hasta; k++ ){
          
         i = vecinos[k].first;
         j = vecinos[k].second;
@@ -103,7 +105,7 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
 // rango_iter = cantidad de iteraciones maximas en las que no se produjo cambios
 // percent = tamanio del subconjunto de la vecindad que explora el algoritmo
 // top = cantidad de las mejores de la vecindad sobre las que se elige 
-pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int costo_ciclo,int T, int max_iter,int rango_iter,int percent,int top){
+pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int costo_ciclo,int T, int max_iter,int rango_iter,int percent){
     
     //Inicializacion de variables
     vector<int> ciclo = SolucionInicial;
@@ -136,5 +138,6 @@ pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int 
             memoria.pop_back();
         }
     }
+
     return make_pair(mejor_ciclo,costo_mejor_ciclo);
 }
