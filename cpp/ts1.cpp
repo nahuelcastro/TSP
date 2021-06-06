@@ -4,7 +4,7 @@
 
 vector<pair<int,int>> createPairVector(int n){
     vector<pair<int,int>> v;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {  
         for (int j = i +1; j < n; j++) {   
             v.push_back(make_pair(i,j));
         }
@@ -21,7 +21,7 @@ vector<int> SwapCiclo(const vector<int>& ciclo,int i ,int j){
 
     
     vector<int> ciclo_Swap;
-
+    // ciclo_Swap[0:i] = ciclo[0:i]
     for (int k = 0; k <= i; k++){                    
         ciclo_Swap.push_back(ciclo[k]);
     }
@@ -51,7 +51,7 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
     // Inicializacion costo y ciclo del mejor vecino con un cambio inicial
     int n = G.size();
 
-    int i = vecinos[0].first;
+    int i = vecinos[0].first;  
     int j = vecinos[0].second;
 
     int vecino_i = (i == n-1) ? 0 : i+1; // si  i = n-1 cierra el ciclo 
@@ -61,7 +61,9 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
     pair<Vecino,Vecino> aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
     
     int costo_mejor_vecino = costo_ciclo ;
-    costo_mejor_vecino -= (aristas_desde_i.first).peso - (aristas_desde_j.first).peso; // quitar peso de aristas originales
+    costo_mejor_vecino -= (aristas_desde_i.first).peso;
+    costo_mejor_vecino -= (aristas_desde_j.first).peso; // quitar peso de aristas originales
+
     costo_mejor_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; // agregar peso de aristas nuevas
     
     vector<int> mejor_vecino = SwapCiclo(ciclo,i,j); // genero el nuevo ciclo
@@ -104,7 +106,6 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
 // max_iter = cantidad de iteraciones maximas
 // rango_iter = cantidad de iteraciones maximas en las que no se produjo cambios
 // percent = tamanio del subconjunto de la vecindad que explora el algoritmo
-// top = cantidad de las mejores de la vecindad sobre las que se elige 
 pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int costo_ciclo,int T, int max_iter,int rango_iter,int percent){
     
     //Inicializacion de variables
@@ -114,6 +115,7 @@ pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int 
     int costo_mejor_ciclo = costo_ciclo ;
     int ult_i = 0;       // ultima iteracion donde hubo una mejora en la solucion
     vector<pair<int,int>> vecinos = createPairVector(G.size()); // Todos los posibles vecinos
+
     int hasta = (G.size()*percent)/100; // hasta que vecino veo
     
     //Ciclo Principal
@@ -124,6 +126,7 @@ pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int 
         obtenerSubVecindad(vecinos); // realiza permutacion aleatoria de los vecinos
         
         tuple<vector<int>,int> mejor = obtenerMejor(G,vecinos,ciclo,costo_mejor_ciclo,memoria,hasta); 
+        
         ciclo = get<0>(mejor);
         costo_ciclo = get<1>(mejor);
         
