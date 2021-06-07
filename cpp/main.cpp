@@ -19,6 +19,7 @@ Grafo leerGrafo() {
       }
       return G;
 }
+
 int randomfunc(int j)
 {
     return rand() % j;
