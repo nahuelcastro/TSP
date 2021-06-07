@@ -1,11 +1,12 @@
 #include "ts1.h"
+#include "aux.h"
 
-//Memoria que almacena ciclos
+
 
 vector<pair<int,int>> createPairVector(int n){
     vector<pair<int,int>> v;
-    for (int i = 0; i < n; i++) {  
-        for (int j = i +1; j < n; j++) {   
+    for (int i = 0; i < n; i++) {
+        for (int j = i+2; j < n; j++) {  // ver el i+2
             v.push_back(make_pair(i,j));
         }
     }
@@ -15,14 +16,13 @@ vector<pair<int,int>> createPairVector(int n){
 void obtenerSubVecindad(vector<pair<int,int>>& v){
 
     random_shuffle(v.begin(), v.end());
-} 
+}
 
 vector<int> SwapCiclo(const vector<int>& ciclo,int i ,int j){
 
-    
     vector<int> ciclo_Swap;
     // ciclo_Swap[0:i] = ciclo[0:i]
-    for (int k = 0; k <= i; k++){                    
+    for (int k = 0; k <= i; k++){
         ciclo_Swap.push_back(ciclo[k]);
     }
 
@@ -34,7 +34,7 @@ vector<int> SwapCiclo(const vector<int>& ciclo,int i ,int j){
     // ciclo_Swap[j+1:] = ciclo[j+1:]
     for (int k = j+1;k < ciclo.size(); k++){
         ciclo_Swap.push_back(ciclo[k]);
-    }   
+    }
     return ciclo_Swap;
 }
 
@@ -47,47 +47,49 @@ bool CicloEstaEnMemoria(list<vector<int>>& memoria,vector<int> ciclo){
 }
 
 tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecinos,vector<int> ciclo,int costo_ciclo,list<vector<int>>& memoria,int hasta){
-    
+
     // Inicializacion costo y ciclo del mejor vecino con un cambio inicial
     int n = G.size();
 
-    int i = vecinos[0].first;  
+    int i = vecinos[0].first;
     int j = vecinos[0].second;
 
-    int vecino_i = (i == n-1) ? 0 : i+1; // si  i = n-1 cierra el ciclo 
-    int vecino_j = (j == n-1) ? 0 : j+1; 
 
-    pair<Vecino,Vecino> aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] ); // <arista original del ciclo, arista nueva> 
-    pair<Vecino,Vecino> aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
-    
+    int vecino_i = (i == n-1) ? 0 : i+1; // si  i = n-1 cierra el ciclo
+    int vecino_j = (j == n-1) ? 0 : j+1;
+
+//    pair<Vecino,Vecino> aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] ); // <arista original del ciclo, arista nueva>
+//    pair<Vecino,Vecino> aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
+//
     int costo_mejor_vecino = costo_ciclo ;
-    costo_mejor_vecino -= (aristas_desde_i.first).peso;
-    costo_mejor_vecino -= (aristas_desde_j.first).peso; // quitar peso de aristas originales
+//    costo_mejor_vecino -= ((aristas_desde_i.first).peso + (aristas_desde_j.first).peso); // quitar peso de aristas originales
+//    costo_mejor_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; // agregar peso de aristas nuevas
 
-    costo_mejor_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; // agregar peso de aristas nuevas
-    
     vector<int> mejor_vecino = SwapCiclo(ciclo,i,j); // genero el nuevo ciclo
+    costo_mejor_vecino = peso_camino(G, mejor_vecino);
 
     for (int k = 1; k < hasta; k++ ){
-         
+
         i = vecinos[k].first;
         j = vecinos[k].second;
 
-        vecino_i = (i == n-1) ? 0 : i+1; 
-        vecino_j = (j == n-1) ? 0 : j+1; 
+        vecino_i = (i == n-1) ? 0 : i+1;
+        vecino_j = (j == n-1) ? 0 : j+1;
 
-        aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] );
-        aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
-        
+//        aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] );
+//        aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
+//
         int costo_vecino = costo_ciclo ;
-        costo_vecino -= (aristas_desde_i.first).peso - (aristas_desde_j.first).peso; 
-        costo_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; 
-        
+//        costo_vecino -= ((aristas_desde_i.first).peso + (aristas_desde_j.first).peso); // quitar peso de aristas originales
+//        costo_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso;
+
         vector<int> vecino = SwapCiclo(ciclo,i,j);
+
+        costo_vecino = peso_camino(G, vecino); 
 
         if(costo_vecino < costo_mejor_vecino){
 
-            if(CicloEstaEnMemoria(memoria,vecino)){ 
+            if(CicloEstaEnMemoria(memoria,vecino)){
                 if(costo_vecino < costo_ciclo){    // funcion de aspiracion
                     mejor_vecino = vecino; // genero el nuevo ciclo
                     costo_mejor_vecino = costo_vecino;
@@ -107,7 +109,7 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
 // rango_iter = cantidad de iteraciones maximas en las que no se produjo cambios
 // percent = tamanio del subconjunto de la vecindad que explora el algoritmo
 pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int costo_ciclo,int T, int max_iter,int rango_iter,int percent){
-    
+
     //Inicializacion de variables
     vector<int> ciclo = SolucionInicial;
     vector<int> mejor_ciclo = ciclo;
@@ -117,19 +119,19 @@ pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int 
     vector<pair<int,int>> vecinos = createPairVector(G.size()); // Todos los posibles vecinos
 
     int hasta = (G.size()*percent)/100; // hasta que vecino veo
-    
+
     //Ciclo Principal
     for (int i = 0; i < max_iter ; ++i){
-        
+
         if( ult_i - i > rango_iter) break; // no hubo mejora en rango_iter iteraciones
-        
+
         obtenerSubVecindad(vecinos); // realiza permutacion aleatoria de los vecinos
-        
-        tuple<vector<int>,int> mejor = obtenerMejor(G,vecinos,ciclo,costo_mejor_ciclo,memoria,hasta); 
-        
+
+        tuple<vector<int>,int> mejor = obtenerMejor(G,vecinos,ciclo,costo_mejor_ciclo,memoria,hasta);
+
         ciclo = get<0>(mejor);
         costo_ciclo = get<1>(mejor);
-        
+
         memoria.push_front(ciclo); // guardamos en memoria el Swap al principio de la lista
 
         if (costo_ciclo < costo_mejor_ciclo) {

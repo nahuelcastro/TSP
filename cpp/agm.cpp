@@ -78,25 +78,11 @@ Grafo prim(const Grafo& g, int v){
     return  res_agm;
 }
 
-int peso_camino2(const Grafo& g, const vector<int>& camino){
-    int res = 0;
-    for (int i = 0; i < camino.size(); ++i) { //O(n)
-        int s = i + 1;
-        if (s == camino.size()) s = 0;
-        for (Vecino v : g[camino[i]]) {      //O(n)
-            if (v.dst == camino[s]) {
-                res += v.peso;
-                break;
-            }
-        }
-    }
-    return res;
-}
 
 pair<vector<int>,int> AGM(const Grafo& g){
     Grafo g_agm = prim(g,0);                          // O(n^2)
     vector<int> camino = dfs(g_agm,0);                  // complejidad DFS
-    int peso = peso_camino2(g,camino);                   // O(n^2)
+    int peso = peso_camino(g,camino);                   // O(n^2)
     return make_pair(camino, peso);
 
 }
