@@ -14,7 +14,7 @@ vector<pair<int,int>> createPairVector(int n){
 }
 
 void obtenerSubVecindad(vector<pair<int,int>>& v){
-
+    srand(time(NULL));
     random_shuffle(v.begin(), v.end());
 }
 
@@ -126,7 +126,7 @@ pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int 
         if( ult_i - i > rango_iter) break; // no hubo mejora en rango_iter iteraciones
 
         obtenerSubVecindad(vecinos); // realiza permutacion aleatoria de los vecinos
-
+            
         tuple<vector<int>,int> mejor = obtenerMejor(G,vecinos,ciclo,costo_mejor_ciclo,memoria,hasta);
 
         ciclo = get<0>(mejor);

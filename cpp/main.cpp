@@ -49,7 +49,6 @@ int main(int argc, char **argv) {
                 return 0;
         }
         string algoritmo = argv[1];
-
         //parametros Tabu
         long T ;
         long max_iter ;
