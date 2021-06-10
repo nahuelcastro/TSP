@@ -5,6 +5,8 @@
 #include "ts2.h"
 #include "ins.h"
 #include <random>
+
+
 Grafo leerGrafo() {
       int n, m;
       cin >> n >> m;
@@ -49,6 +51,7 @@ int main(int argc, char **argv) {
                 return 0;
         }
         string algoritmo = argv[1];
+
         //parametros Tabu
         long T ;
         long max_iter ;
@@ -63,6 +66,7 @@ int main(int argc, char **argv) {
         
         // Leemos el input.
         Grafo G = leerGrafo();
+
         // Ejecutamos el algoritmo y obtenemos su tiempo de ejecución.
         int costo;
         vector<int> H;
@@ -74,15 +78,9 @@ int main(int argc, char **argv) {
         } else if (algoritmo == "random") {
                 vector<int> v = {0,1,2,4,5,6,7,8,9,10,11};
                 vector<int> cambio ; 
-                //auto rd = random_device {}; 
-                //auto rng = std::default_random_engine { rd() };
-
+        
                 for (size_t i = 0; i < 6; i++){ 
                         cambio = v; 
-                        //shuffle(v.begin(), v.end(),default_random_engine(0));
-                        //random_shuffle(cambio.begin(), cambio.end(),randomfunc);
-                        //std::shuffle(begin(cambio), std::end(cambio), rng);
-                        
                         for (int e : cambio) cout << e << " ";
                         cout<<endl;
                 }

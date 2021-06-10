@@ -3,8 +3,8 @@
 
 #include "tipos.h"
 
-//Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados);
-//Vecino buscarAristaMinima(vector<Vecino> vecinos, int w);
+int elegir(Grafo G, vector<bool> insertado);
+int insertar(Grafo G, Vertice w, map<pair<int, int>, int>longitudes, map<int, int> &conexiones, vector<bool> &insertado);
 pair<vector<int>,int> I(const Grafo& G);
 
 #endif //TP2_ALGO3_I_H

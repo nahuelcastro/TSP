@@ -1,10 +1,10 @@
-#include "tipos.h"
+#include "ins.h"
 
 int elegir(Grafo G, vector<bool> insertado){ // O(n²)
     Vecino min(-1,-1,0);
 
     // Elijo el vertice más cercano (menos peso) a uno ya insertado
-    for (int i = 0; i < insertado.size(); i++) // O(n²) -> Menos en realidad
+    for (int i = 0; i < insertado.size(); i++) // O(n²)
     {
         if(insertado[i]){
             vector<Vecino> vecinos = G[i];
@@ -48,7 +48,6 @@ int insertar(Grafo G, Vertice w, map<pair<int, int>, int>longitudes, map<int, in
             }
         }
     }
-    // Cabeza? Quien?
     if(conexiones[iViejo] == jViejo) {
         conexiones[w] = jViejo;
         conexiones[iViejo] = w;

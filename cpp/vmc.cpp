@@ -1,9 +1,9 @@
 #include "vmc.h"
-#include "aux.h"
 
 Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
     Vecino min(-1,-1,0);
     int ind;
+    
     //Iniciliazacion peso minimo. Se busca el primer vecino no visitado.
     for (int i = 0; i < vecinos.size(); i++) {
         if(visitados[vecinos[i].dst] == false){
@@ -12,6 +12,7 @@ Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
             break;
         }
     }
+
     // Busqueda de un vecino que tenga el minimo peso.
     for (int i = ind + 1 ; i < vecinos.size(); i++){
         if (visitados[vecinos[i].dst] == false && vecinos[i].peso < min.peso) {
@@ -24,6 +25,7 @@ Vecino buscarMinimo(const vector<Vecino>& vecinos, vector<bool>& visitados){
 Vecino buscarAristaMinima(const vector<Vecino>& vecinos, int w){
     Vecino min(-1,-1,0);
     int ind = 0;
+
     //Inicializacion peso minimo. Se busca la primer arista a w.
     for (int i = 0; i < vecinos.size(); i++) {
         if(vecinos[i].dst == w){
@@ -32,6 +34,7 @@ Vecino buscarAristaMinima(const vector<Vecino>& vecinos, int w){
             break;
         }
     }
+
     // Busqueda de una arista a w que tenga el minimo peso.
     for (int i = ind + 1 ; i < vecinos.size(); i++){
         if (vecinos[i].dst == w && vecinos[i].peso < min.peso) {
@@ -46,6 +49,7 @@ pair<vector<int>,int> VMC(const Grafo& G){
     int costo = 0;
     int n = G.size();
     vector<bool> visitados(n);
+
     // agrego primer vertice del ciclo
     int v = 0;
     H.push_back(v);
@@ -62,12 +66,6 @@ pair<vector<int>,int> VMC(const Grafo& G){
         v = w.dst;
     }
     Vecino cierre = buscarAristaMinima(G[H[n-1]],H[0]); // arista que cierra el ciclo.
-    
-    // if (cierre.dst != -1) return make_pair(H, costo + cierre.peso);
 
-    // else { // No existe arista que cierre el ciclo.
-    //     return make_pair(H, costo + cierre.peso );
-    // }
-
-    return make_pair(H,peso_camino(G, H) );
+    return make_pair(H,costo_camino(G, H) );
 }

@@ -1,12 +1,10 @@
 #include "ts1.h"
-#include "aux.h"
-
 
 
 vector<pair<int,int>> createPairVector(int n){
     vector<pair<int,int>> v;
     for (int i = 0; i < n; i++) {
-        for (int j = i+2; j < n; j++) {  // ver el i+2
+        for (int j = i+2; j < n; j++) {
             v.push_back(make_pair(i,j));
         }
     }
@@ -21,6 +19,7 @@ void obtenerSubVecindad(vector<pair<int,int>>& v){
 vector<int> SwapCiclo(const vector<int>& ciclo,int i ,int j){
 
     vector<int> ciclo_Swap;
+    
     // ciclo_Swap[0:i] = ciclo[0:i]
     for (int k = 0; k <= i; k++){
         ciclo_Swap.push_back(ciclo[k]);
@@ -54,38 +53,16 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
     int i = vecinos[0].first;
     int j = vecinos[0].second;
 
-
-    int vecino_i = (i == n-1) ? 0 : i+1; // si  i = n-1 cierra el ciclo
-    int vecino_j = (j == n-1) ? 0 : j+1;
-
-//    pair<Vecino,Vecino> aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] ); // <arista original del ciclo, arista nueva>
-//    pair<Vecino,Vecino> aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
-//
-    int costo_mejor_vecino = costo_ciclo ;
-//    costo_mejor_vecino -= ((aristas_desde_i.first).peso + (aristas_desde_j.first).peso); // quitar peso de aristas originales
-//    costo_mejor_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; // agregar peso de aristas nuevas
-
     vector<int> mejor_vecino = SwapCiclo(ciclo,i,j); // genero el nuevo ciclo
-    costo_mejor_vecino = peso_camino(G, mejor_vecino);
+    int costo_mejor_vecino = costo_camino(G, mejor_vecino);
 
     for (int k = 1; k < hasta; k++ ){
 
         i = vecinos[k].first;
         j = vecinos[k].second;
 
-        vecino_i = (i == n-1) ? 0 : i+1;
-        vecino_j = (j == n-1) ? 0 : j+1;
-
-//        aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] );
-//        aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
-//
-        int costo_vecino = costo_ciclo ;
-//        costo_vecino -= ((aristas_desde_i.first).peso + (aristas_desde_j.first).peso); // quitar peso de aristas originales
-//        costo_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso;
-
         vector<int> vecino = SwapCiclo(ciclo,i,j);
-
-        costo_vecino = peso_camino(G, vecino); 
+        int costo_vecino = costo_camino(G, vecino); 
 
         if(costo_vecino < costo_mejor_vecino){
 
@@ -103,6 +80,7 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
     }
     return make_tuple(mejor_vecino,costo_mejor_vecino);
 }
+
 
 // T = Tamanio de la memoria
 // max_iter = cantidad de iteraciones maximas

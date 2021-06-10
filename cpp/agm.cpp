@@ -5,6 +5,7 @@
 const int INT_MAX = 2147483647;
 Vecino V_INDEF = Vecino(-1,INT_MAX, INT_MAX);
 
+
 void dfs_rec(int v,const Grafo &g, vector<bool>&visitados,vector<int>& orden){
     for (Vecino n : g[v]){
         if (!visitados[n.dst]){
@@ -14,6 +15,7 @@ void dfs_rec(int v,const Grafo &g, vector<bool>&visitados,vector<int>& orden){
         }
     }
 }
+
 
 vector<int> dfs(const Grafo& G,int v0){
     v0 = 0 ;
@@ -25,6 +27,7 @@ vector<int> dfs(const Grafo& G,int v0){
 
     return orden;
 }
+
 
 Grafo prim(const Grafo& g, int v){
     vector<bool> visitados (g.size(), false); // O(n)
@@ -42,7 +45,7 @@ Grafo prim(const Grafo& g, int v){
     distancia[v] = 0;
     visitados[v] = true;
 
-    for (int i = 1; i < g.size() ; ++i) { // O(n) * adentro = O(n) * O(2n)= O(nÂ²)
+    for (int i = 1; i < g.size() ; ++i) { // O(n^2)
         int n;
         int dist_min = INT_MAX;
 
@@ -80,9 +83,9 @@ Grafo prim(const Grafo& g, int v){
 
 
 pair<vector<int>,int> AGM(const Grafo& g){
-    Grafo g_agm = prim(g,0);                          // O(n^2)
-    vector<int> camino = dfs(g_agm,0);                  // complejidad DFS
-    int peso = peso_camino(g,camino);                   // O(n^2)
+    Grafo g_agm = prim(g,0);                            // O(n^2)
+    vector<int> camino = dfs(g_agm,0);                  // O(n^2)
+    int peso = costo_camino(g,camino);                  // O(n^2)
     return make_pair(camino, peso);
 
 }

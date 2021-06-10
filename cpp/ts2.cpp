@@ -25,15 +25,11 @@ tuple<vector<int>,int,pair<Vecino,Vecino>> obtenerMejor(const Grafo& G,vector<pa
     pair<Vecino,Vecino> aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] ); // <arista original del ciclo, arista nueva> 
     pair<Vecino,Vecino> aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
     
-    // int costo_mejor_vecino = costo_ciclo ;
-    // costo_mejor_vecino -= (aristas_desde_i.first).peso - (aristas_desde_j.first).peso; // quitar peso de aristas originales
-    // costo_mejor_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; // agregar peso de aristas nuevas
-    
     pair<Vecino,Vecino> sw = make_pair( aristas_desde_i.second , aristas_desde_j.second );         // aristas nuevas
     pair<Vecino,Vecino> reverse_sw = make_pair( aristas_desde_i.first , aristas_desde_j.first);    // aristas quitadas
 
     vector<int> mejor_vecino = SwapCiclo(ciclo,i,j); // genero el nuevo ciclo
-    int costo_mejor_vecino = peso_camino(G,mejor_vecino);
+    int costo_mejor_vecino = costo_camino(G,mejor_vecino);
 
     for (int k = 1; k < hasta; k++ ){
         i = vecinos[k].first;
@@ -45,13 +41,9 @@ tuple<vector<int>,int,pair<Vecino,Vecino>> obtenerMejor(const Grafo& G,vector<pa
         aristas_desde_i = AristasDesde( G[ciclo[i]] , ciclo[vecino_i], ciclo[j] );
         aristas_desde_j = AristasDesde( G[ciclo[j]], ciclo[vecino_j], ciclo[vecino_i]);
         
-        // int costo_vecino = costo_ciclo ;
-        // costo_vecino -= (aristas_desde_i.first).peso - (aristas_desde_j.first).peso; 
-        // costo_vecino +=  (aristas_desde_i.second).peso + (aristas_desde_j.second).peso; 
-        
         sw = make_pair( aristas_desde_i.second , aristas_desde_j.second );             
         vector<int> vecino = SwapCiclo(ciclo,i,j); // genero el nuevo ciclo
-        int costo_vecino = peso_camino(G,vecino);
+        int costo_vecino = costo_camino(G,vecino);
 
         if(costo_vecino < costo_mejor_vecino){
 
@@ -72,6 +64,7 @@ tuple<vector<int>,int,pair<Vecino,Vecino>> obtenerMejor(const Grafo& G,vector<pa
     
     return make_tuple(mejor_vecino,costo_mejor_vecino,reverse_sw);
 }
+
 
 // T = Tamanio de la memoria
 // max_iter = cantidad de iteraciones maximas
