@@ -10,21 +10,21 @@ o ejecutar el comando sh build.sh en la terminal
 
 Al ejecutarlo se le debe pasar un parámetro que indique cuál algoritmo se desea utilizar entre las siguientes opciones:
 
-
 - VMC : vecino mas cercano
 - AGM : arbol generador minimo
-- I : incersion
+- I : insercion
 
-Además se debe pasar la instancia por entrada estándar. Por ejemplo, para ejecutar backtracking solamente con podas por factibilidad en una instancia INST1.TXT se debe correr el siguiente comando:
-	cat INST1.txt | ./main BT-F
+- VMC-TS1 : vecino mas cercano - tabu search 1
+- AGM-TS1 : arbol generador minimo - tabu search 1
+- I-TS1 : insercion - tabu search 1
+
+- VMC-TS2 : vecino mas cercano - tabu search 2
+- AGM-TS2 : arbol generador minimo - tabu search 2
+- I-TS2 : insercion - tabu search 2
+
+
+Además se debe pasar la instancia por entrada estándar. Por ejemplo: 
+	cat INST1.txt | ./main VMC
 La salida del programa es doble. Por la salida estándar se devuelve lo pedido por el enunciado. Por la STDERR se devuelve el tiempo de ejecución del algoritmo.
 
 La generación de instancias y corrida de experimentos está programada en Python utilizando Jupyter Lab (https://jupyter.org/). Para ver los notebooks se debe instalar Jupyter Labs siguiendo las instrucciones en su web. Se recomienda seguir los pasos de instalación utilizando pip3.
-
-Una vez instalado Jupyter Lab, abrir una consola en la carpeta python y correr el comando:
-	jupyter lab
-
-Allí, existen tres archivos:
-	- generar-instancias.ipynb: genera las instancias descriptas en el trabajo y las ubica en la carpeta python/instancias.
-	- experimentos.ipynb: corre los experimentos del trabajo y deja el resultado de todas las ejecuciones en un CSV en la carpeta python/resultados
-	- analysis.ipynb: toma los resultados de las ejecuciones y genera todos los gráficos correspondientes.

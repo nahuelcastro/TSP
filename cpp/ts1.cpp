@@ -82,10 +82,7 @@ tuple<vector<int>,int> obtenerMejor(const Grafo& G,vector<pair<int,int>>& vecino
 }
 
 
-// T = Tamanio de la memoria
-// max_iter = cantidad de iteraciones maximas
-// rango_iter = cantidad de iteraciones maximas en las que no se produjo cambios
-// percent = tamanio del subconjunto de la vecindad que explora el algoritmo
+
 pair<vector<int>,int> tabuSearch(const Grafo& G,vector<int> SolucionInicial,int costo_ciclo,int T, int max_iter,int rango_iter,int percent){
 
     //Inicializacion de variables
