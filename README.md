@@ -1,3 +1,22 @@
+### Breve introducción
+
+Este es el conocido problema del viajante de comercio. En este proyecto tuvimos que programar distintos algoritmos heuristicos y metaheuristicos y con ellos realizar distintos experimentos en varias ciudades del mundo.
+
+El conocido problema del viajante de comercio o TSP por sus siglas en inglés (Travelling Salesman Problem) es
+uno de los problemas más conocidos en computación. El cual es investigado en todo el mundo en busca de mejorar los algoritmos existentes, ya que es un problema NP-HARD. Esto hace referencia a que no existe un algoritmo que de una solución en tiempo polinomial para resolverlo.
+
+En el presente proyecto, implementamos en C++ utilizando algoritmos heurı́sticos y metaheurı́sticos para aproximarnos lo más posible a la solución en tiempo polinomial.
+
+También, experimentamos y comparamos eficiencia y eficacia de los distintos algoritmos con distintas ciudades con Python (usando Jupyter Notebooks)
+
+Finalmente, se escribió un informe resumido del proyecto y los resultados de las experimentaciones con LaTex.
+
+
+
+### Uso y compilación
+
+
+
 El código que resuelve el problema del enunciado está en el archivo main.cpp.
 Para compilarlo se debe ejecutar los siguientes comandos 
 en la consola.
